@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -13,10 +14,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
-	RobotDrive myRobot = new RobotDrive(0, 1);
+public class Robot extends IterativeRobot {  //Class Robot: Like blueprint for robot
+	Victor motor1 = new Victor(1);  //Constuctor: fn that creates a new vicotr motor controller
+	Victor motor2 = new Victor(2); 
+	Victor motor3 = new Victor(3);
+	Victor motor4 = new Victor(4);
 	Joystick stick = new Joystick(0);
-	Timer timer = new Timer();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,8 +34,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		timer.reset();
-		timer.start();
 	}
 
 	/**
@@ -40,12 +41,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// Drive for 2 seconds
-		if (timer.get() < 2.0) {
-			myRobot.drive(-0.5, 0.0); // drive forwards half speed
-		} else {
-			myRobot.drive(0.0, 0.0); // stop robot
-		}
+		
 	}
 
 	/**
@@ -60,8 +56,13 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopPeriodic() {
-		myRobot.arcadeDrive(stick);
+	public void teleopPeriodic() {    //Whenever robot in teleop, get joystick value and go that speed
+		double joyForwardBack = stick.getY(); //Y values of joystick
+		motor1.set(joyForwardBack);
+		motor2.set(joyForwardBack);
+		motor3.set(joyForwardBack);
+		motor4.set(joyForwardBack);
+		
 	}
 
 	/**
